@@ -4,7 +4,7 @@ Module contains the Superclass: BaseModel
 """
 from datetime import datetime 
 import uuid
-import json
+time = "%Y-%m-%dT%H:%M:%S.%f"
 
 # Console is working as the shell
 # Basemodel is what the object is
@@ -26,16 +26,16 @@ class BaseModel:
         else:
             self.id = uuid.uuid4()
             self.created_at = datetime.now()
-            self.updated_at = self.created
+            self.updated_at = self.created_at
 
 
 
 
-    def to_json_string(self):
+    def __str__(self):
         """
         string for printing 
         """
-        return json.dumps(self.to_dict())
+        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
 
 
     def save(self):
