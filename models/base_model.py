@@ -24,7 +24,7 @@ class BaseModel:
                     v = datetime.fromisoformat(v)
                     setattr(self, k, v)
         else:
-            self.id = uuid.uuid4()
+            self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = self.created_at
 
@@ -37,12 +37,11 @@ class BaseModel:
         """
         return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
 
-
     def save(self):
         """
         updates the public instance attribute with the current datetime
         """
-        pass
+        self.updated_at = datetime.now()
 
 
     def to_dict(self):
@@ -50,4 +49,12 @@ class BaseModel:
         Returns a dictionary containing all key/values of the instance
         """
         new_dict = {}
-        #for k, v in self.__dict
+        for k, v in self.__dict__.items():
+            if k == 'created_at' or k == 'updated_at':
+                v = datetime.isoformat(v)
+            print(new_dict)
+            print(k)
+            print(v)
+            new_dict[k] = v
+            
+        return new_dict
