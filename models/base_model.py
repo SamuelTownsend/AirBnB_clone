@@ -5,6 +5,7 @@ Module contains the Superclass: BaseModel
 from datetime import datetime 
 import uuid
 time = "%Y-%m-%dT%H:%M:%S.%f"
+from models import storage
 
 # Console is working as the shell
 # Basemodel is what the object is
@@ -20,13 +21,16 @@ class BaseModel:
         """
         if kwargs:
             for k, v in kwargs.items():
-                if k == 'created_at':
+                if k == 'created_at' or k == 'updated_at':
                     v = datetime.fromisoformat(v)
-                    setattr(self, k, v)
+                if k == '__class__':
+                    continue
+                setattr(self, k, v)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
-            self.updated_at = self.created_at
+            self.updated_at = datetime.now()
+            storage.new(self)
 
 
 
@@ -42,6 +46,7 @@ class BaseModel:
         updates the public instance attribute with the current datetime
         """
         self.updated_at = datetime.now()
+        storage.save()
 
 
     def to_dict(self):
@@ -49,12 +54,10 @@ class BaseModel:
         Returns a dictionary containing all key/values of the instance
         """
         new_dict = {}
-        for k, v in self.__dict__.items():
-            if k == 'created_at' or k == 'updated_at':
-                v = datetime.isoformat(v)
-            print(new_dict)
-            print(k)
-            print(v)
-            new_dict[k] = v
-            
+        for key, value in self.__dict__.items():
+            new_dict[key] = value
+            new_dict['__class__'] = type(self).__name__
+            new_dict['created_at'] = datetime.isoformat(self.created_at)
+            new_dict['updated_at'] = datetime.isoformat(self.updated_at)
+                        
         return new_dict
