@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """heading for py file"""
 import json
-import models
 
 
 class FileStorage:
