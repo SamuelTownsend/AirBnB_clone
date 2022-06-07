@@ -2,9 +2,8 @@
 """
 Module contains the Superclass: BaseModel
 """
-from datetime import datetime 
+from datetime import datetime
 import uuid
-
 
 
 time = "%Y-%m-%dT%H:%M:%S.%f"
@@ -12,7 +11,7 @@ time = "%Y-%m-%dT%H:%M:%S.%f"
 
 # Console is working as the shell
 # Basemodel is what the object is
-# file sotrage 
+# file sotrage
 
 class BaseModel:
     """
@@ -35,19 +34,18 @@ class BaseModel:
             self.updated_at = datetime.now()
 
 
-
     def __str__(self):
         """
-        string for printing 
+        string for printing
         """
-        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
+        clname = self.__class__.__name__
+        return "[{}] ({}) {}".format(clname, self.id, self.__dict__)
 
     def save(self):
         """
         updates the public instance attribute with the current datetime
         """
         self.updated_at = datetime.now()
-
 
     def to_dict(self):
         """
@@ -59,5 +57,5 @@ class BaseModel:
             new_dict['__class__'] = type(self).__name__
             new_dict['created_at'] = datetime.isoformat(self.created_at)
             new_dict['updated_at'] = datetime.isoformat(self.updated_at)
-                        
+
         return new_dict
