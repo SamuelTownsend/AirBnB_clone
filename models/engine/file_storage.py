@@ -1,6 +1,13 @@
 #!/usr/bin/python3
 """heading for py file"""
 import json
+from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.place import Amenity
+from models.amenity import Place
+from models.review import Review
 
 
 class FileStorage:
@@ -10,27 +17,28 @@ class FileStorage:
 
     def all(self):
         """returns the dictionary of objects"""
-        return self.__objects
+        return FileStorage.__objects
 
     def new(self, obj):
         """sets in the obj with the key"""
-        key = "{} {}".format(obj.__class__.__name__, obj.id)
-        self.__objects[key] = obj
+        nameof = obj.__class__.__name__
+        FileStorage.__objects["{}.{}".format(nameof, obj.id)] = obj
 
     def save(self):
         """serializes the object to the json file"""
-        json_objects = {}
-        for k, v in self.__objects.items():
-            json_objects[k] = value.to_dict()
-        with open(self.__file_path, "w") as f:
-            json.dump(json_objects, f)
+        odict = FileStorage.__objects
+        objdict = {obj: odict[obj].to_dict() for obj in odict.keys()}
+        with open(FileStorage.__file_path, "w+") as f:
+            json.dump(objdict, f)
 
     def reload(self):
         """deserializes the JSON file to the object"""
         try:
-            with open(self.__file_path, 'r') as f:
+            with open(FileStorage.__file_path) as f:
                 objdict = json.load(f)
-                for k in objdict.values():
-                    self.__objects[k] = getattr(models, objdict[k]['__class__'](**objdict[k]))
-        except Exception:
+                for o in objdict.values():
+                    cls_name = o["__class__"]
+                    del o["__class__"]
+                    self.new(eval(cls_name)(**o))
+        except FileNotFoundError:
             return
