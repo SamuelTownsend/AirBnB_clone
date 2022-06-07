@@ -24,5 +24,5 @@ class HBNBCommand(cmd.Cmd):
         """empty line"""
         return 
 
-if __name__ = '__main__':
+if __name__ == '__main__':
     HBNBCommand().cmdloop()
