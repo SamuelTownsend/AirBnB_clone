@@ -5,6 +5,7 @@ this module contains the command interpreter
 
 import cmd
 
+
 class HBNBCommand(cmd.Cmd):
     """
     Class is for a command line interpreter
@@ -22,7 +23,7 @@ class HBNBCommand(cmd.Cmd):
 
     def emptyline(self):
         """empty line"""
-        return 
+        return
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
