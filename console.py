@@ -44,6 +44,7 @@ class HBNBCommand(cmd.Cmd):
         from models.amenity import Amenity
         from models.place import Place
         from models.review import Review
+        from models import storage
 
         classes = {
             "BaseModel": BaseModel,
@@ -52,7 +53,8 @@ class HBNBCommand(cmd.Cmd):
             "City": City,
             "Amenity": Amenity,
             "Place": Place,
-            "Review": Review
+            "Review": Review,
+            "storage": FileStorage
             }
         return classes
 
