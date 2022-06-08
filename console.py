@@ -1,28 +1,56 @@
 #!/usr/bin/python3
-"""
-this module contains the command interpreter
-"""
+
 
 import cmd
+import sys
+import inspect
 
 class HBNBCommand(cmd.Cmd):
     """
-    Class is for a command line interpreter
+    This class inherits from cmd and is a command line
+    interpreter for AirBnb clone
     """
 
-    prompt = "(hbnb) "
+    prompt = '(hbnb) '
 
     def do_quit(self, arg):
-        """Uses quit as a command to exit"""
+        """Quit command to exit the program\n"""
         return True
 
     def do_EOF(self, arg):
-        """command for end of file"""
+        """EOF command for end of file"""
+        print()
         return True
 
     def emptyline(self):
-        """empty line"""
-        return
+        """
+        Called when empty line given
+        """
+        pass
+   
+    def classes(self):
+        from models.base_model import BaseModel
+        from models.user import User
+        from models.state import State
+        from models.city import City
+        from models.amenity import Amenity
+        from models.place import Place
+        from models.review import Review
+        from models import storage
+       
+        classes = {
+            "BaseModel": BaseModel,
+            "User": User,
+            "State": State,
+            "City": City,
+            "Amenity": Amenity,
+            "Place": Place,
+            "Review": Review,
+            "storage": FileStorage
+            }
+        return classes
+
+
     def do_create(self, arg):
         """Creates new instance of BaseModel\n"""
         classes = storage.classes()
@@ -34,27 +62,6 @@ class HBNBCommand(cmd.Cmd):
             print(obj.id)
         else:
             print("** class doesn't exist **")
-    
-    def classes(self):
-        """Method for importing classes to fix circular import"""
-        from models.base_model import BaseModel
-        from models.user import User
-        from models.state import State
-        from models.city import City
-        from models.amenity import Amenity
-        from models.place import Place
-        from models.review import Review
-
-        classes = {
-            "BaseModel": BaseModel,
-            "User": User,
-            "State": State,
-            "City": City,
-            "Amenity": Amenity,
-            "Place": Place,
-            "Review": Review
-            }
-        return classes
 
     def do_show(self, *args):
         """Prints string representation of instance\n"""
@@ -155,6 +162,6 @@ class HBNBCommand(cmd.Cmd):
         setattr(all_objs[string], arg[2], a)
         storage.save()
 
-                
+
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
