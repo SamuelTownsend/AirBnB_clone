@@ -37,6 +37,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
     
     def classes(self):
+        """Method for importing classes to fix circular import"""
         from models.base_model import BaseModel
         from models.user import User
         from models.state import State
