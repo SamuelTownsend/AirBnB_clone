@@ -4,7 +4,6 @@ this module contains the command interpreter
 """
 
 import cmd
-import sys
 
 class HBNBCommand(cmd.Cmd):
     """
