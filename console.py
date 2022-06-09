@@ -37,7 +37,11 @@ class HBNBCommand(cmd.Cmd):
         from models.place import Place
         from models.review import Review
         from models import storage
+<<<<<<< HEAD
        
+=======
+
+>>>>>>> 5deb1d12e2bb674f22156544ed852b3586af61fb
         classes = {
             "BaseModel": BaseModel,
             "User": User,
