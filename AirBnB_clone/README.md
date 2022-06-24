@@ -1,2 +1,0 @@
-AirBnB_clone
-project
