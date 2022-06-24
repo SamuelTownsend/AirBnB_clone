@@ -1,1 +1,0 @@
-this file contains the photots for the AirBnb project
